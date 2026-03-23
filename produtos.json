@@ -1,0 +1,210 @@
+[
+  {
+    "nome": "Caneca Porcelana",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto1.png",
+    "descricao": "A caneca de porcelana branca é o modelo mais versátil para sublimação. Impressão em alta definição, brilho impecável e durabilidade superior — um presente perfeito para todas as ocasiões.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Caneca Alça/Interna Cor",
+    "preco": 45,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto2.png",
+    "descricao": "Interior e alça coloridos destacam ainda mais a personalização. Ideal para coleções temáticas e presentes estilosos.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Caneca Preta",
+    "preco": 50,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto3.png",
+    "descricao": "Perfeita para artes vibrantes e realistas. O acabamento em preto traz um toque sofisticado ao produto final.",
+    "badge": ""
+  },
+  {
+    "nome": "Caneca Magica",
+    "preco": 55,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto4.png",
+    "descricao": "Surpreenda com o efeito revelador que transforma a cor ao adicionar bebida quente.",
+    "badge": "promoção"
+  },
+  {
+    "nome": "Caneca Alça Coração",
+    "preco": 50,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto5.png",
+    "descricao": "Romântica e charmosa, adiciona carinho a cada momento de café ou chá.",
+    "badge": ""
+  },
+  {
+    "nome": "Caneca c/ Colher",
+    "preco": 60,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto6.png",
+    "descricao": "Praticidade e estilo reunidos, com colher exclusiva para mexer com conforto.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Caneca c/ Colher (Variante)",
+    "preco": 55,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto7.png",
+    "descricao": "Variante sofisticada da clássica caneca com colher, perfeita para uso diário ou presente.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Caneca de Chopp",
+    "preco": 50,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto8.png",
+    "descricao": "Ideal para celebrar momentos especiais, com design robusto e elegante.",
+    "badge": ""
+  },
+  {
+    "nome": "Caneca Borda Dourada",
+    "preco": 60,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto9.png",
+    "descricao": "Luxo em cada detalhe, com acabamento dourado que impressiona em qualquer ocasião.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Torre de Xicaras",
+    "preco": 120,
+    "categoria": "decoracao",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto10.png",
+    "descricao": "Organização e sofisticação em um conjunto compacto, ideal para servir com classe.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Caneca Wood",
+    "preco": 65,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto11.png",
+    "descricao": "Toque rústico e natural, unindo madeira e cerâmica para um estilo único.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Torre Majestic",
+    "preco": 100,
+    "categoria": "decoracao",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto12.png",
+    "descricao": "Conjunto majestoso de xícaras, perfeito para impressionar em qualquer reunião.",
+    "badge": ""
+  },
+  {
+    "nome": "Caneca Colmeia",
+    "preco": 55,
+    "categoria": "canecas",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto13.png",
+    "descricao": "Design exclusivo em relevo, elegante e moderno, trazendo personalidade ao café.",
+    "badge": ""
+  },
+  {
+    "nome": "Toalha Lavabo",
+    "preco": 15,
+    "categoria": "vestuario",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto14.png",
+    "descricao": "Toque de sofisticação para o lavabo, com textura premium e acabamento impecável.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Camisa",
+    "preco": 35,
+    "categoria": "vestuario",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto15.png",
+    "descricao": "Conforto e estilo em tecido de alta qualidade, ideal para o dia a dia ou ocasiões especiais.",
+    "badge": ""
+  },
+  {
+    "nome": "Squeeze",
+    "preco": 42,
+    "categoria": "presentes",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto16.png",
+    "descricao": "Hidratação prática e elegante, perfeito para acompanhar sua rotina com estilo.",
+    "badge": ""
+  },
+  {
+    "nome": "Azulejo",
+    "preco": 25,
+    "categoria": "decoracao",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto17.png",
+    "descricao": "Peça decorativa sofisticada, ideal para personalizar ambientes com charme.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Sandálias",
+    "preco": 30,
+    "categoria": "vestuario",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto18.png",
+    "descricao": "Conforto e design moderno, unindo estilo e bem-estar para cada passo.",
+    "badge": ""
+  },
+  {
+    "nome": "Cesta de Presentes",
+    "preco": 75,
+    "categoria": "presentes",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto19.png",
+    "descricao": "Seleção premium de produtos, pronta para encantar e surpreender em qualquer ocasião.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Long Drink",
+    "preco": 3.9,
+    "categoria": "copos",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto20.png",
+    "descricao": "Material de alta qualidade, perfeito para drinks e momentos de celebração.",
+    "badge": ""
+  },
+  {
+    "nome": "Copo Térmico",
+    "preco": 120,
+    "categoria": "copos",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto21.png",
+    "descricao": "Mantém sua bebida na temperatura ideal, com design moderno e funcional.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Bonés",
+    "preco": 22,
+    "categoria": "vestuario",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto23.png",
+    "descricao": "Boné personalizado com acabamento de qualidade e visual moderno. Confortável, estiloso e perfeito para destacar marcas, equipes ou uso casual.",
+    "badge": ""
+  },
+  {
+    "nome": "Ecobag",
+    "preco": 25,
+    "categoria": "vestuario",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto24.png",
+    "descricao": "Ecobag personalizada confeccionada em material resistente e reutilizável, ideal para quem busca praticidade com estilo. A personalização é feita com alta qualidade, garantindo cores vivas e excelente durabilidade.",
+    "badge": ""
+  },
+  {
+    "nome": "Chaveiro",
+    "preco": 6,
+    "categoria": "presentes",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto26.png",
+    "descricao": "Transforme um momento especial em algo que você pode levar todos os dias no bolso.",
+    "badge": "Novidade"
+  },
+  {
+    "nome": "Almofada",
+    "preco": 20,
+    "categoria": "decoracao",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto25.png",
+    "descricao": "Não é só uma almofada… É uma lembrança cheia de sentimento.",
+    "badge": "Promoção"
+  },
+  {
+    "nome": "Agenda Personalizada",
+    "preco": 69,
+    "categoria": "presentes",
+    "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto27.png",
+    "descricao": "Organize seus sonhos, metas e compromissos em uma agenda feita especialmente para você.",
+    "badge": "Novidade"
+  }
+]
