@@ -673,7 +673,7 @@ function fecharModal(){
 }
 
 /* ===== ENVIAR PEDIDO ===== */
-function enviarPedido(){
+async function enviarPedido(){
 
   const nomeCliente = document.getElementById("nome").value.trim();
   const cidade = document.getElementById("cidade").value.trim();
@@ -691,28 +691,37 @@ function enviarPedido(){
 
   const afiliado = localStorage.getItem("afiliado") || "SEM_AFILIADO";
 
-  // 📡 Envia para planilha
-  fetch(
+  const url =
     "https://script.google.com/macros/s/AKfycbzp6awm22_gezZOX6C2P53vSkBrsaZ5Yj7iv-WZgI71VJYUfR_TQV1bklqrE8FY3dww/exec" +
     `?afiliado=${encodeURIComponent(afiliado)}` +
     `&produto=${encodeURIComponent(produtoAtualNome)}` +
     `&valor=${encodeURIComponent(totalFinal)}` +
     `&cliente=${encodeURIComponent(nomeCliente)}` +
     `&cidade=${encodeURIComponent(cidade)}` +
-    `&endereco=${encodeURIComponent(endereco)}`
-  );
+    `&endereco=${encodeURIComponent(endereco)}`;
 
-  // 📲 WhatsApp
-  const msg = `🛒 Pedido Rabisco & Arte
+  try {
+    // 🔥 espera o envio acontecer
+    await fetch(url, { method: "GET", mode: "no-cors" });
+
+  } catch (err) {
+    console.error("Erro ao enviar:", err);
+  }
+
+  // ⏳ pequeno delay pra garantir envio
+  setTimeout(() => {
+
+    const msg = `🛒 Pedido Rabisco & Arte
 Produto: ${produtoAtualNome}
 Valor: R$ ${totalFinal.toFixed(2)}
 Nome: ${nomeCliente}
 Cidade: ${cidade}
 Endereço: ${endereco}`;
 
-  window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
-}
+    window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
 
+  }, 500);
+}
 
 /* ===== FILTRO E PAGINAÇÃO ===== */
 document.getElementById("filtroContainer").querySelectorAll("button").forEach(btn=>{
