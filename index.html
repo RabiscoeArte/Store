@@ -711,13 +711,21 @@ async function enviarPedido(){
   // ⏳ pequeno delay pra garantir envio
   setTimeout(() => {
 
-    const msg = `🛒 Pedido Rabisco & Arte
-Produto: ${produtoAtualNome}
-Valor: R$ ${totalFinal.toFixed(2)}
-Nome: ${nomeCliente}
-Cidade: ${cidade}
-Endereço: ${endereco}`;
+const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 
+🛍️ *Produto:* ${produtoAtualNome}
+💰 *Valor:* R$ ${totalFinal.toFixed(2)}
+
+👤 *Cliente:* ${nomeCliente}
+📍 *Cidade:* ${cidade}
+🏠 *Endereço:* ${endereco}
+
+━━━━━━━━━━━━━━━━━━
+🚀 *Pedido pronto para personalização!*
+💬 Envie os detalhes da arte (nome, foto ou tema)
+
+💜 Obrigado por escolher a Rabisco & Arte!`;
+     
     window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
 
   }, 500);
