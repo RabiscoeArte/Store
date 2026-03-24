@@ -700,16 +700,8 @@ async function enviarPedido(){
     `&cidade=${encodeURIComponent(cidade)}` +
     `&endereco=${encodeURIComponent(endereco)}`;
 
-  try {
-    // 🔥 espera o envio acontecer
-    await fetch(url, { method: "GET", mode: "no-cors" });
-
-  } catch (err) {
-    console.error("Erro ao enviar:", err);
-  }
-
-  // ⏳ pequeno delay pra garantir envio
-  setTimeout(() => {
+  // 🚀 ENVIO INSTANTÂNEO (SEM TRAVAR)
+  navigator.sendBeacon(url);
 
 const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 
@@ -727,8 +719,6 @@ const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 💜 Obrigado por escolher a Rabisco & Arte!`;
      
     window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
-
-  }, 500);
 }
 
 /* ===== FILTRO E PAGINAÇÃO ===== */
