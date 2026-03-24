@@ -701,9 +701,9 @@ async function enviarPedido(){
     `&endereco=${encodeURIComponent(endereco)}`;
 
    try {
-    // 🔥 espera o envio acontecer
-    await fetch(url, { method: "GET", mode: "no-cors" });
-
+    // 🚀 ENVIO SEM BLOQUEAR (ESSA É A CHAVE)
+  fetch(url, { method: "GET", mode: "no-cors" });
+      
   } catch (err) {
     console.error("Erro ao enviar:", err);
   }
