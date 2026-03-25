@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Catálogo – Rabisco & Arte</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ===============================
+   VARIÁVEIS DE IDENTIDADE VISUAL
+================================ */
+:root{
+  --cor-principal: #964BA8;
+  --cor-principal-clara: #B98AD3;
+  --cor-principal-escura: #6E2F87;
+  --cor-texto: #333;
+  --cor-fundo: #FFFFFF;
+  --cor-sombra: rgba(0,0,0,.12);
+}
+
+/* ===============================
+   RESET & BASE
+================================ */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Poppins",sans-serif;
+}
+
+body{
+  background:var(--cor-fundo);
+  color:var(--cor-texto);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ===============================
+   TOPO PROMOCIONAL
+================================ */
+.container-vermelho{
+  background: linear-gradient(90deg,#25D366,#1EBE5D);
+  padding:12px;
+  text-align:center;
+  font-weight:600;
+}
+
+.texto-branco{
+  color:#fff;
+}
+
+/* ===============================
+   HEADER
+================================ */
+header{
+  text-align:center;
+  padding:35px 0;
+  background:linear-gradient(180deg,var(--cor-principal-escura),var(--cor-principal));
+  border-bottom:2px solid var(--cor-principal-clara);
+}
+
+header img{
+  width:280px;
+  max-width:80%;
+}
+
+/* ===============================
+   TÍTULOS
+================================ */
+h3{
+  text-align:center;
+  margin:20px;
+  color:var(--cor-principal);
+  letter-spacing:2px;
+}
+
+/* ===============================
+   FILTROS
+================================ */
+.filtro-container{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin:25px 10px;
+}
+
+.filtro-container button{
+  background:linear-gradient(135deg,var(--cor-principal-clara),var(--cor-principal));
+  border:none;
+  padding:10px 18px;
+  border-radius:25px;
+  font-weight:700;
+  color:#fff;
+  cursor:pointer;
+  transition:.22s ease;
+  box-shadow:0 4px 8px rgba(150,75,168,.35);
+}
+
+.filtro-container button:hover{
+  transform:translateY(-3px) scale(1.02);
+}
+
+.filtro-container button.ativo{
+  background:var(--cor-principal-escura);
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+/* ===============================
+   CATÁLOGO
+================================ */
+main{
+  max-width:1100px;
+  margin:30px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:25px;
+  padding:0 15px;
+}
+
+/* ===============================
+   CARD PRODUTO
+================================ */
+.produto{
+  background:#fff;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 6px 15px var(--cor-sombra);
+  transition:.35s;
+  transform:translateY(12px);
+  opacity:0;
+  position:relative;
+}
+
+.produto.visivel{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.produto:hover{
+  transform:scale(1.02);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.produto img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+}
+
+/* ===============================
+   CONTEÚDO PRODUTO
+================================ */
+.produto-content{
+  padding:18px;
+}
+
+.produto h2{
+  color:var(--cor-principal);
+  margin-bottom:6px;
+}
+
+.produto p{
+  margin:8px 0;
+  line-height:1.3;
+}
+
+.preco{
+  font-weight:800;
+  color:var(--cor-principal-escura);
+  font-size:1.05rem;
+}
+
+/* ===============================
+   BADGE
+================================ */
+.badge{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:linear-gradient(90deg,var(--cor-principal),var(--cor-principal-escura));
+  color:#fff;
+  padding:6px 12px;
+  border-radius:15px;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  box-shadow:0 3px 6px rgba(0,0,0,.18);
+  letter-spacing:1px;
+}
+
+/* ===============================
+   AÇÕES
+================================ */
+.actions{
+  text-align:center;
+  padding:14px 18px 22px;
+}
+
+.actions button{
+  background:linear-gradient(135deg,var(--cor-principal),var(--cor-principal-escura));
+  border:none;
+  color:#fff;
+  padding:12px 26px;
+  border-radius:30px;
+  cursor:pointer;
+  font-weight:800;
+  box-shadow:0 4px 12px rgba(150,75,168,.45);
+  transition:.25s;
+}
+
+.actions button:hover{
+  transform:translateY(-3px);
+}
+
+/* ===============================
+   WHATSAPP FIXO
+================================ */
+.whatsapp{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#25D366;
+  color:#fff;
+  padding:15px;
+  border-radius:50%;
+  font-size:20px;
+  z-index:1000;
+  box-shadow:0 6px 18px rgba(0,0,0,.2);
+}
+
+/* ===============================
+   MODAL (CORRIGIDO)
+================================ */
+#modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.7);
+  display:none; /* IMPORTANTE */
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:15px;
+}
+
+.modal-premium{
+  background:#fff;
+  width:100%;
+  max-width:420px;
+  padding:18px;
+  border-radius:16px;
+  text-align:center;
+  position:relative;
+  box-shadow:0 25px 50px rgba(0,0,0,.35);
+  animation:modalIn .35s ease;
+}
+
+/* ANIMAÇÃO */
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.95);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* BOTÃO FECHAR */
+.modal-close{
+  position:absolute;
+  top:10px;
+  right:14px;
+  cursor:pointer;
+  font-size:20px;
+  color:#999;
+}
+
+/* IMAGEM DO MODAL */
+.modal-img{
+  width:100%;
+  max-height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:8px;
+}
+
+/* HEADER MODAL */
+.modal-header h3{
+  margin-bottom:4px;
+  color:var(--cor-principal-escura);
+  font-size:1.05rem;
+  font-weight:800;
+}
+
+.viewers{
+  color:var(--cor-principal);
+  font-size:12.5px;
+  margin-bottom:4px;
+}
+
+.modal-alert{
+  color:#ff3d8e;
+  font-size:15px;
+  font-weight:800;
+}
+
+/* FORM */
+.modal-form input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+
+/* ===============================
+   STATUS
+================================ */
+#total{
+  font-weight:900;
+  font-size:20px;
+  margin-top:8px;
+  color:var(--cor-principal-escura);
+  background:#f6f0fa;
+  padding:10px;
+  border-radius:12px;
+}
+
+.prazo{
+  margin-top:6px;
+  font-size:12px;
+  font-weight:800;
+  color:#ff3d8e;
+}
+
+/* ===============================
+   BOTÃO FINAL
+================================ */
+.btn-whatsapp{
+  background:#25D366;
+  border:none;
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  font-size:15px;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  margin-top:8px;
+  box-shadow:0 0 18px rgba(37,211,102,.5);
+  transition:.25s;
+}
+
+.btn-whatsapp:hover{
+  transform:scale(1.04);
+}
+
+/* ===============================
+   FOOTER
+================================ */
+footer{
+  background:var(--cor-principal-escura);
+  color:#eee;
+  text-align:center;
+  padding:25px 10px;
+}
+
+footer a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+}
+
+footer a:hover{
+  text-decoration:underline;
+}
+
+.social-icons a{
+  color:#fff;
+  font-size:1.4em;
+  margin:0 10px;
+  transition:transform .25s;
+}
+
+.social-icons a:hover{
+  transform:scale(1.15);
+}
+
+/* ===============================
+   PAGINAÇÃO
+================================ */
+.pagination-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin:30px 0 60px;
+}
+
+.pagination-container button{
+  background:linear-gradient(135deg,var(--cor-principal),var(--cor-principal-escura));
+  border:none;
+  padding:10px 18px;
+  border-radius:30px;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.pagination-container button[disabled]{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* ===============================
+   RESPONSIVO
+================================ */
+@media(max-width:900px){
+  .produto img{height:200px;}
+}
+
+@media(max-width:700px){
+  main{grid-template-columns:repeat(2,1fr);}
+  .produto img{height:150px;}
+  .produto h2{font-size:14px;}
+  .produto p{font-size:12px;}
+  .whatsapp{right:12px;bottom:12px;}
+}
+/* ===============================
+   PROVA SOCIAL DINÂMICA
+================================ */
+.prova-social-dinamica{
+  background:#faf7fc;
+  padding:45px 15px;
+  text-align:center;
+}
+
+.prova-social-dinamica h3{
+  color:var(--cor-principal);
+  margin-bottom:8px;
+}
+
+.avaliacao-geral{
+  font-size:14px;
+  font-weight:800;
+  color:var(--cor-principal-escura);
+  margin-bottom:25px;
+}
+
+.depoimento-dinamico{
+  max-width:520px;
+  margin:0 auto;
+  background:#fff;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 8px 20px rgba(0,0,0,.10);
+  transition:opacity .4s ease, transform .4s ease;
+}
+
+.depoimento-dinamico p{
+  font-size:14px;
+  line-height:1.5;
+}
+
+.depoimento-dinamico span{
+  display:block;
+  margin-top:12px;
+  font-weight:800;
+  color:var(--cor-principal);
+  font-size:12px;
+}
+#depoimentoBox{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .45s ease, transform .45s ease;
+}
+
+#depoimentoBox.ativo{
+  opacity:1;
+  transform:translateY(0);
+}
+/* === PREÇO CATÁLOGO (FORÇADO) === */
+.produto .produto-content .preco{
+  font-size:1.2rem;
+  font-weight:700;
+  color:var(--cor-principal-escura);
+}
+
+.cart-icon{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  background:#000;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:30px;
+  font-weight:800;
+  cursor:pointer;
+  z-index:1000;
+}
+
+#modalCarrinho{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:15px;
+}
+
+/* INPUTS BONITOS (PADRÃO MODAL) */
+.modal-premium input{
+  width:100%;
+  padding:14px 16px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid #e5e5e5;
+  font-size:14px;
+  background:#f8f6fb;
+  outline:none;
+  transition:.25s;
+}
+
+/* FOCO (quando clica) */
+.modal-premium input:focus{
+  border-color:var(--cor-principal);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(150,75,168,.15);
+}
+
+/* PLACEHOLDER COM ÍCONE */
+.modal-premium input::placeholder{
+  color:#999;
+  font-weight:500;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container-vermelho">
+  <p class="texto-branco">💝 Não dê apenas um presente… crie uma memória
+Personalização exclusiva com qualidade premium</p>
+</div>
+
+<header>
+  <img src="imgs/logo.png" alt="Logo Rabisco & Arte">
+</header>
+
+<h3>CATÁLOGO PREMIUM</h3>
+
+<iframe src="banner.html" style="width:100%; height:260px; border:none; overflow:hidden;" loading="lazy"></iframe>
+
+<!-- FILTROS -->
+<div class="filtro-container" id="filtroContainer" aria-label="Filtrar produtos">
+  <button data-cat="todos" class="ativo">Todos</button>
+  <button data-cat="canecas">Canecas</button>
+  <button data-cat="copos">Copos</button>
+  <button data-cat="presentes">Presentes</button>
+  <button data-cat="decoracao">Decoração</button>
+  <button data-cat="vestuario">Vestuário</button>
+</div>
+
+<!-- PRODUTOS -->
+<main id="catalogo"></main>
+
+<!-- PAGINAÇÃO -->
+<div class="pagination-container">
+  <button id="prev">◀ Anterior</button>
+  <span id="page-info">Página 1 de 1</span>
+  <button id="next">Próximo ▶</button>
+</div>
+<section class="prova-social-dinamica">
+  <h3>Clientes satisfeitos 💜</h3>
+
+  <div class="avaliacao-geral">
+    ⭐⭐⭐⭐⭐ <strong>4,9</strong> de 5 • <strong>+300 pedidos entregues</strong>
+  </div>
+
+  <div class="depoimento-dinamico" id="depoimentoBox">
+    <p id="depoimentoTexto"></p>
+    <span id="depoimentoAutor"></span>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Rabisco & Arte. Todos os direitos reservados</p>
+  <p>Desenvolvido por <a href="#">Two Designer / Grupo Mega</a></p>
+  <div class="social-icons">
+    <a href="tel:+5585994083703"><i class="fas fa-phone"></i></a>
+    <a href="https://instagram.com/rabisco.earte" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://wa.me/5585994083703" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  </div>
+</footer>
+
+<div class="cart-icon" onclick="abrirCarrinho()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
+<a class="whatsapp" href="https://wa.me/5585994083703" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<!-- MODAL -->
+<div id="modal">
+  <div class="modal-premium">
+    <span class="modal-close" onclick="fecharModal()">✖</span>
+    <img id="modalImg" class="modal-img" src="" alt="Produto">
+    <div class="modal-header">
+      <h3 id="produtoNome"></h3>
+      <p class="modal-alert">🔥 Alta procura — personalize o seu agora!</p>
+      <p id="viewers" class="viewers"></p>
+    </div>
+    <div class="modal-form">
+  <input id="nomeProduto" placeholder="👤 Seu nome">
+  <input id="cidadeProduto" placeholder="📍 Cidade">
+  <input id="enderecoProduto" placeholder="🏠 Endereço">
+  
+  <div class="status-box">
+    <p id="total"></p>
+
+    <p class="prazo">
+      ⏱ Produção em até 3 dias úteis
+    </p>
+  </div>
+</div>
+    <button class="btn-whatsapp" onclick="enviarPedido()"><i class="fab fa-whatsapp"></i> Finalizar no WhatsApp</button>
+  </div>
+</div>
+
+<script>
+/* ===== CAPTURA AUTOMÁTICA DE AFILIADO ===== */
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const afi = params.get("afiliado");
+  if(afi){
+    localStorage.setItem("afiliado", afi.toUpperCase());
+  }
+})();
+
+/* ===== VARIÁVEIS GLOBAIS ===== */
+const SHEET_API_URL = "https://rabiscoearte.github.io/Store/produtos.json";
+const TELEFONE = "5585994083703";
+let produtos = [], paginaAtual = 1, categoriaAtual = "todos";
+const produtosPorPagina = 6;
+let precoAtual = 0, totalFinal = 0, produtoAtualNome = "";
+let carrinho = [];
+
+/* ===== FUNÇÃO DE CARREGAMENTO ===== */
+async function carregarProdutos(){
+  try{
+    const res = await fetch(SHEET_API_URL);
+    const data = await res.json();
+    produtos = data.map(p => ({
+      nome: String(p.nome||"").trim(),
+      preco: Number(String(p.preco).replace(",",".")||0),
+      categoria: String(p.categoria||"").toLowerCase(),
+      imagem: String(p.imagem||""),
+      descricao: String(p.descricao||""),
+      badge: String(p.badge||"")
+    }));
+    renderizarCards();
+    iniciarSistemaCatalogo();
+  }catch(err){
+    console.error("Erro ao carregar produtos:", err);
+    document.getElementById("catalogo").innerHTML = "<p style='text-align:center;color:red;'>Erro ao carregar produtos.</p>";
+  }
+}
+
+/* ===== RENDERIZA CARDS ===== */
+function renderizarCards(){
+  const catalogo = document.getElementById("catalogo");
+  catalogo.innerHTML = "";
+  produtos.forEach(p=>{
+    const precoStr = p.preco.toFixed(2);
+    const card = document.createElement("div");
+    card.className = "produto";
+    card.dataset.categoria = p.categoria;
+    card.dataset.nome = p.nome;
+    card.dataset.preco = p.preco;
+    card.dataset.imagem = p.imagem;
+    card.innerHTML = `
+      ${p.badge?`<span class="badge">${p.badge}</span>`:""}
+      <div class="produto-img"><img src="${p.imagem}" alt="${p.nome}"></div>
+      <div class="produto-content">
+        <h2>${p.nome}</h2>
+        <p>${p.descricao}</p>
+        <p class="preco">R$ ${precoStr}</p>
+      </div>
+      <div class="actions">
+  <button class="btn-add">🛒 Adicionar</button>
+</div>
+    `;
+    catalogo.appendChild(card);
+  });
+  document.querySelectorAll(".btn-add").forEach(btn=>{
+  btn.addEventListener("click", function(){
+    const card = this.closest(".produto");
+
+    const nome = card.dataset.nome;
+    const preco = Number(card.dataset.preco);
+
+    const existente = carrinho.find(p => p.nome === nome);
+
+    if(existente){
+      existente.qtd++;
+    }else{
+      carrinho.push({ nome, preco, qtd:1 });
+    }
+
+    atualizarCarrinhoUI();
+  });
+});
+}
+
+/* ===== ABRIR MODAL ===== */
+function abrirModalFromCard(card){
+  produtoAtualNome = card.dataset.nome;
+  precoAtual = Number(card.dataset.preco)||0;
+  totalFinal = precoAtual;
+  document.getElementById("produtoNome").innerText = `${produtoAtualNome} — R$ ${precoAtual.toFixed(2)}`;
+  document.getElementById("modalImg").src = card.dataset.imagem;
+  document.getElementById("total").innerHTML = `Valor: <b>R$ ${totalFinal.toFixed(2)}</b>`;
+  document.getElementById("modal").style.display = "flex";
+  gerarVisualizacoes();
+}
+
+/* ===== GERAR VISUALIZAÇÕES ===== */
+function gerarVisualizacoes(){
+  const pessoas = Math.floor(Math.random()*11)+5;
+  document.getElementById("viewers").innerText = `${pessoas} pessoas visualizaram esse produto agora 🔥`;
+}
+
+/* ===== FECHAR MODAL ===== */
+function fecharModal(){
+  document.getElementById("modal").style.display = "none";
+}
+
+/* ===== ENVIAR PEDIDO ===== */
+function atualizarCarrinhoUI(){
+  let totalItens = 0;
+  carrinho.forEach(p=> totalItens += p.qtd || 1);
+  document.getElementById("cart-count").innerText = totalItens;
+}
+
+function abrirCarrinho(){
+  renderCarrinho();
+  document.getElementById("modalCarrinho").style.display = "flex";
+}
+
+function fecharCarrinho(){
+  document.getElementById("modalCarrinho").style.display = "none";
+}
+
+function renderCarrinho(){
+  const lista = document.getElementById("listaCarrinho");
+  lista.innerHTML = "";
+
+  let total = 0;
+
+  carrinho.forEach((item, index)=>{
+
+    const subtotal = item.preco * item.qtd;
+    total += subtotal;
+
+    lista.innerHTML += `
+      <div style="margin:10px 0;padding:10px;border-bottom:1px solid #eee;">
+        
+        <strong>${item.nome}</strong>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+
+          <div>
+            <button onclick="diminuirQtd(${index})">➖</button>
+            <span style="margin:0 8px;font-weight:800;">${item.qtd}</span>
+            <button onclick="aumentarQtd(${index})">➕</button>
+          </div>
+
+          <div>
+            R$ ${subtotal.toFixed(2)}
+          </div>
+
+        </div>
+
+        <button onclick="removerItem(${index})" style="margin-top:6px;color:red;border:none;background:none;">
+          ❌ Remover
+        </button>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("totalCarrinho").innerHTML =
+    `<strong>Total: R$ ${total.toFixed(2)}</strong>`;
+}
+
+function aumentarQtd(index){
+  carrinho[index].qtd++;
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function diminuirQtd(index){
+  if(carrinho[index].qtd > 1){
+    carrinho[index].qtd--;
+  }else{
+    carrinho.splice(index,1);
+  }
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function removerItem(index){
+  carrinho.splice(index,1);
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function finalizarCarrinho(){
+
+  const nome = document.getElementById("nomeCart").value.trim();
+  const cidade = document.getElementById("cidadeCart").value.trim();
+  const endereco = document.getElementById("enderecoCart").value.trim();
+
+  if(!nome || !cidade || !endereco){
+    alert("Preencha os dados");
+    return;
+  }
+
+  if(carrinho.length === 0){
+    alert("Carrinho vazio");
+    return;
+  }
+
+  const afiliado = localStorage.getItem("afiliado") || "SEM_AFILIADO";
+
+  let total = 0;
+  let listaProdutos = "";
+
+  carrinho.forEach(p=>{
+    const subtotal = p.preco * p.qtd;
+    total += subtotal;
+    listaProdutos += `${p.nome} x${p.qtd} - R$ ${subtotal.toFixed(2)}\n`;
+  });
+
+  const url =
+    "https://script.google.com/macros/s/AKfycbzp6awm22_gezZOX6C2P53vSkBrsaZ5Yj7iv-WZgI71VJYUfR_TQV1bklqrE8FY3dww/exec" +
+    `?afiliado=${encodeURIComponent(afiliado)}` +
+    `&produto=${encodeURIComponent(listaProdutos)}` +
+    `&valor=${encodeURIComponent(total)}` +
+    `&cliente=${encodeURIComponent(nome)}` +
+    `&cidade=${encodeURIComponent(cidade)}` +
+    `&endereco=${encodeURIComponent(endereco)}`;
+
+  try {
+    navigator.sendBeacon(url);
+  } catch (err) {
+    console.error("Erro ao enviar:", err);
+  }
+
+  const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
+
+🛍️ *Pedido:*
+${listaProdutos}
+
+💰 *Total:* R$ ${total.toFixed(2)}
+
+👤 *Cliente:* ${nome}
+📍 *Cidade:* ${cidade}
+🏠 *Endereço:* ${endereco}
+
+━━━━━━━━━━━━━━━━━━
+🚀 *Pedido pronto para personalização!*
+💬 Envie os detalhes da arte (nome, foto ou tema)
+
+💜 Obrigado por escolher a Rabisco & Arte!`;
+
+  window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+}
+
+/* ===== FILTRO E PAGINAÇÃO ===== */
+document.getElementById("filtroContainer").querySelectorAll("button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("#filtroContainer button").forEach(b=>b.classList.remove("ativo"));
+    btn.classList.add("ativo");
+    categoriaAtual = (btn.dataset.cat||"todos").toLowerCase();
+    paginaAtual = 1;
+    mostrarProdutos();
+  });
+});
+
+const btnPrev = document.getElementById("prev"), btnNext = document.getElementById("next"), infoPagina = document.getElementById("page-info");
+
+btnPrev.addEventListener("click", ()=>{if(paginaAtual>1){paginaAtual--;mostrarProdutos();window.scrollTo({top:200,behavior:"smooth"});}});
+btnNext.addEventListener("click", ()=>{
+  const todosProdutos = Array.from(document.querySelectorAll(".produto"));
+  const filtrados = todosProdutos.filter(prod => categoriaAtual==="todos" || prod.dataset.categoria===categoriaAtual);
+  const totalPaginas = Math.max(1,Math.ceil(filtrados.length/produtosPorPagina));
+  if(paginaAtual<totalPaginas){paginaAtual++;mostrarProdutos();window.scrollTo({top:200,behavior:"smooth"});}
+});
+
+function iniciarSistemaCatalogo(){mostrarProdutos();}
+function mostrarProdutos(){
+  const todosProdutos = Array.from(document.querySelectorAll(".produto"));
+  const filtrados = todosProdutos.filter(prod => categoriaAtual==="todos" || prod.dataset.categoria===categoriaAtual);
+  const totalPaginas = Math.max(1,Math.ceil(filtrados.length/produtosPorPagina));
+  todosProdutos.forEach(p=>{p.style.display="none";p.classList.remove("visivel");});
+  if(filtrados.length===0){infoPagina.innerText="Nenhum produto encontrado";btnPrev.disabled=true;btnNext.disabled=true;return;}
+  if(paginaAtual<1) paginaAtual=1; if(paginaAtual>totalPaginas) paginaAtual=totalPaginas;
+  const inicio = (paginaAtual-1)*produtosPorPagina;
+  filtrados.slice(inicio,inicio+produtosPorPagina).forEach((p,i)=>{p.style.display="block";setTimeout(()=>p.classList.add("visivel"),40*i);});
+  infoPagina.innerText=`Página ${paginaAtual} de ${totalPaginas}`;
+  btnPrev.disabled = paginaAtual===1; btnNext.disabled = paginaAtual>=totalPaginas;
+}
+
+document.addEventListener("DOMContentLoaded", carregarProdutos);
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const depoimentos = [
+    {
+      texto: "A caneca ficou linda, com acabamento impecável.",
+      autor: "Juliana M. · Fortaleza/CE"
+    },
+    {
+      texto: "Entrega rápida e atendimento muito atencioso.",
+      autor: "Carlos R. · Caucaia/CE"
+    },
+    {
+      texto: "Comprei e superou todas as expectativas.",
+      autor: "Renata S. · Maracanaú/CE"
+    },
+    {
+      texto: "Qualidade acima do esperado. Voltarei a comprar.",
+      autor: "Amanda L. · Eusébio/CE"
+    }
+  ];
+
+  let indice = 0;
+  let intervalo;
+
+  const textoEl = document.getElementById("depoimentoTexto");
+  const autorEl = document.getElementById("depoimentoAutor");
+  const box = document.getElementById("depoimentoBox");
+
+  if(!textoEl || !autorEl || !box) return;
+
+  function trocarDepoimento(){
+    box.classList.remove("ativo");
+
+    setTimeout(() => {
+      textoEl.innerText = `“${depoimentos[indice].texto}”`;
+      autorEl.innerText = `— ${depoimentos[indice].autor}`;
+
+      box.classList.add("ativo");
+      indice = (indice + 1) % depoimentos.length;
+    }, 350);
+  }
+
+  function iniciarRotacao(){
+    trocarDepoimento();
+    intervalo = setInterval(trocarDepoimento, 5200);
+  }
+
+  function pararRotacao(){
+    clearInterval(intervalo);
+  }
+
+  box.addEventListener("mouseenter", pararRotacao);
+  box.addEventListener("mouseleave", iniciarRotacao);
+
+  iniciarRotacao();
+});
+</script>
+
+<div id="modalCarrinho" style="display:none;">
+  <div class="modal-premium">
+    <span class="modal-close" onclick="fecharCarrinho()">✖</span>
+
+    <h3>Sua sacolinha 🛍️</h3>
+    
+    <p class="prazo">
+      ⏱ Produção em até 3 dias úteis
+    </p>
+
+    <div id="listaCarrinho"></div>
+    <p id="totalCarrinho"></p>
+
+    <input id="nomeCart" placeholder="👤Seu nome">
+    <input id="cidadeCart" placeholder="📍Cidade">
+    <input id="enderecoCart" placeholder="🏠Endereço">
+    
+    <button class="btn-whatsapp" onclick="finalizarCarrinho()">
+      Finalizar no WhatsApp
+    </button>
+  </div>
+</div>
+
+</body>
+</html>
