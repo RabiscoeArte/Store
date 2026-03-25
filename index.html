@@ -825,7 +825,7 @@ function removerItem(index){
   atualizarCarrinhoUI();
 }
 
-function finalizarCarrinho(){
+async function finalizarCarrinho(){
 
   const nome = document.getElementById("nomeCart").value.trim();
   const cidade = document.getElementById("cidadeCart").value.trim();
@@ -862,7 +862,7 @@ function finalizarCarrinho(){
     `&endereco=${encodeURIComponent(endereco)}`;
 
   try {
-    navigator.sendBeacon(url);
+    await fetch(url); // 🔥 AGORA SIM FUNCIONA COM GOOGLE SHEETS
   } catch (err) {
     console.error("Erro ao enviar:", err);
   }
