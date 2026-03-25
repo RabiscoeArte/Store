@@ -492,6 +492,59 @@ footer a:hover{
   color:var(--cor-principal-escura);
 }
 
+.cart-icon{
+  position:fixed;
+  left:20px;
+  bottom:20px;
+  background:#000;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:30px;
+  font-weight:800;
+  cursor:pointer;
+  z-index:1000;
+}
+
+#modalCarrinho{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  padding:15px;
+}
+
+/* INPUTS BONITOS (PADRÃO MODAL) */
+.modal-premium input{
+  width:100%;
+  padding:14px 16px;
+  margin:8px 0;
+  border-radius:12px;
+  border:1px solid #e5e5e5;
+  font-size:14px;
+  background:#f8f6fb;
+  outline:none;
+  transition:.25s;
+}
+
+/* FOCO (quando clica) */
+.modal-premium input:focus{
+  border-color:var(--cor-principal);
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(150,75,168,.15);
+}
+
+/* PLACEHOLDER COM ÍCONE */
+.modal-premium input::placeholder{
+  color:#999;
+  font-weight:500;
+}
+
 </style>
 </head>
 <body>
@@ -551,6 +604,10 @@ Personalização exclusiva com qualidade premium</p>
   </div>
 </footer>
 
+<div class="cart-icon" onclick="abrirCarrinho()">
+  🛒 <span id="cart-count">0</span>
+</div>
+
 <a class="whatsapp" href="https://wa.me/5585994083703" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <!-- MODAL -->
@@ -564,10 +621,10 @@ Personalização exclusiva com qualidade premium</p>
       <p id="viewers" class="viewers"></p>
     </div>
     <div class="modal-form">
-  <input type="text" id="nome" placeholder="👤 Seu nome">
-  <input type="text" id="cidade" placeholder="📍 Cidade">
-  <input type="text" id="endereco" placeholder="🏠 Endereço">
-
+  <input id="nomeProduto" placeholder="👤 Seu nome">
+  <input id="cidadeProduto" placeholder="📍 Cidade">
+  <input id="enderecoProduto" placeholder="🏠 Endereço">
+  
   <div class="status-box">
     <p id="total"></p>
 
@@ -596,6 +653,7 @@ const TELEFONE = "5585994083703";
 let produtos = [], paginaAtual = 1, categoriaAtual = "todos";
 const produtosPorPagina = 6;
 let precoAtual = 0, totalFinal = 0, produtoAtualNome = "";
+let carrinho = [];
 
 /* ===== FUNÇÃO DE CARREGAMENTO ===== */
 async function carregarProdutos(){
@@ -638,16 +696,30 @@ function renderizarCards(){
         <p>${p.descricao}</p>
         <p class="preco">R$ ${precoStr}</p>
       </div>
-      <div class="actions"><button type="button" class="btn-encomendar">PERSONALIZAR AGORA</button></div>
+      <div class="actions">
+  <button class="btn-add">🛒 Adicionar</button>
+</div>
     `;
     catalogo.appendChild(card);
   });
-  document.querySelectorAll(".btn-encomendar").forEach(btn=>{
-    btn.addEventListener("click", function(){
-      const card = this.closest(".produto");
-      abrirModalFromCard(card);
-    });
+  document.querySelectorAll(".btn-add").forEach(btn=>{
+  btn.addEventListener("click", function(){
+    const card = this.closest(".produto");
+
+    const nome = card.dataset.nome;
+    const preco = Number(card.dataset.preco);
+
+    const existente = carrinho.find(p => p.nome === nome);
+
+    if(existente){
+      existente.qtd++;
+    }else{
+      carrinho.push({ nome, preco, qtd:1 });
+    }
+
+    atualizarCarrinhoUI();
   });
+});
 }
 
 /* ===== ABRIR MODAL ===== */
@@ -674,50 +746,135 @@ function fecharModal(){
 }
 
 /* ===== ENVIAR PEDIDO ===== */
-async function enviarPedido(){
+function atualizarCarrinhoUI(){
+  let totalItens = 0;
+  carrinho.forEach(p=> totalItens += p.qtd || 1);
+  document.getElementById("cart-count").innerText = totalItens;
+}
 
-  const nomeCliente = document.getElementById("nome").value.trim();
-  const cidade = document.getElementById("cidade").value.trim();
-  const endereco = document.getElementById("endereco").value.trim();
+function abrirCarrinho(){
+  renderCarrinho();
+  document.getElementById("modalCarrinho").style.display = "flex";
+}
 
-  if(!nomeCliente || !cidade || !endereco){
-    alert("Preencha nome, cidade e endereço.");
+function fecharCarrinho(){
+  document.getElementById("modalCarrinho").style.display = "none";
+}
+
+function renderCarrinho(){
+  const lista = document.getElementById("listaCarrinho");
+  lista.innerHTML = "";
+
+  let total = 0;
+
+  carrinho.forEach((item, index)=>{
+
+    const subtotal = item.preco * item.qtd;
+    total += subtotal;
+
+    lista.innerHTML += `
+      <div style="margin:10px 0;padding:10px;border-bottom:1px solid #eee;">
+        
+        <strong>${item.nome}</strong>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+
+          <div>
+            <button onclick="diminuirQtd(${index})">➖</button>
+            <span style="margin:0 8px;font-weight:800;">${item.qtd}</span>
+            <button onclick="aumentarQtd(${index})">➕</button>
+          </div>
+
+          <div>
+            R$ ${subtotal.toFixed(2)}
+          </div>
+
+        </div>
+
+        <button onclick="removerItem(${index})" style="margin-top:6px;color:red;border:none;background:none;">
+          ❌ Remover
+        </button>
+
+      </div>
+    `;
+  });
+
+  document.getElementById("totalCarrinho").innerHTML =
+    `<strong>Total: R$ ${total.toFixed(2)}</strong>`;
+}
+
+function aumentarQtd(index){
+  carrinho[index].qtd++;
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function diminuirQtd(index){
+  if(carrinho[index].qtd > 1){
+    carrinho[index].qtd--;
+  }else{
+    carrinho.splice(index,1);
+  }
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function removerItem(index){
+  carrinho.splice(index,1);
+  renderCarrinho();
+  atualizarCarrinhoUI();
+}
+
+function finalizarCarrinho(){
+
+  const nome = document.getElementById("nomeCart").value.trim();
+  const cidade = document.getElementById("cidadeCart").value.trim();
+  const endereco = document.getElementById("enderecoCart").value.trim();
+
+  if(!nome || !cidade || !endereco){
+    alert("Preencha os dados");
     return;
   }
 
-  if(!produtoAtualNome || totalFinal <= 0){
-    alert("Produto inválido.");
+  if(carrinho.length === 0){
+    alert("Carrinho vazio");
     return;
   }
 
   const afiliado = localStorage.getItem("afiliado") || "SEM_AFILIADO";
 
+  let total = 0;
+  let listaProdutos = "";
+
+  carrinho.forEach(p=>{
+    const subtotal = p.preco * p.qtd;
+    total += subtotal;
+    listaProdutos += `${p.nome} x${p.qtd} - R$ ${subtotal.toFixed(2)}\n`;
+  });
+
   const url =
     "https://script.google.com/macros/s/AKfycbzp6awm22_gezZOX6C2P53vSkBrsaZ5Yj7iv-WZgI71VJYUfR_TQV1bklqrE8FY3dww/exec" +
     `?afiliado=${encodeURIComponent(afiliado)}` +
-    `&produto=${encodeURIComponent(produtoAtualNome)}` +
-    `&valor=${encodeURIComponent(totalFinal)}` +
-    `&cliente=${encodeURIComponent(nomeCliente)}` +
+    `&produto=${encodeURIComponent(listaProdutos)}` +
+    `&valor=${encodeURIComponent(total)}` +
+    `&cliente=${encodeURIComponent(nome)}` +
     `&cidade=${encodeURIComponent(cidade)}` +
     `&endereco=${encodeURIComponent(endereco)}`;
 
-   try {
-    // 🚀 ENVIO SEM BLOQUEAR (ESSA É A CHAVE)
-  fetch(url, { method: "GET", mode: "no-cors" });
-      
+  try {
+    navigator.sendBeacon(url);
   } catch (err) {
     console.error("Erro ao enviar:", err);
   }
-   
-  // 🚀 ENVIO INSTANTÂNEO (SEM TRAVAR)
-  navigator.sendBeacon(url);
 
-const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
+  const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 
-🛍️ *Produto:* ${produtoAtualNome}
-💰 *Valor:* R$ ${totalFinal.toFixed(2)}
+🛍️ *Pedido:*
+${listaProdutos}
 
-👤 *Cliente:* ${nomeCliente}
+💰 *Total:* R$ ${total.toFixed(2)}
+
+👤 *Cliente:* ${nome}
 📍 *Cidade:* ${cidade}
 🏠 *Endereço:* ${endereco}
 
@@ -726,8 +883,8 @@ const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 💬 Envie os detalhes da arte (nome, foto ou tema)
 
 💜 Obrigado por escolher a Rabisco & Arte!`;
-     
-    window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+
+  window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
 }
 
 /* ===== FILTRO E PAGINAÇÃO ===== */
@@ -825,6 +982,29 @@ document.addEventListener("DOMContentLoaded", () => {
   iniciarRotacao();
 });
 </script>
+
+<div id="modalCarrinho" style="display:none;">
+  <div class="modal-premium">
+    <span class="modal-close" onclick="fecharCarrinho()">✖</span>
+
+    <h3>Sua sacolinha 🛍️</h3>
+    
+    <p class="prazo">
+      ⏱ Produção em até 3 dias úteis
+    </p>
+
+    <div id="listaCarrinho"></div>
+    <p id="totalCarrinho"></p>
+
+    <input id="nomeCart" placeholder="👤Seu nome">
+    <input id="cidadeCart" placeholder="📍Cidade">
+    <input id="enderecoCart" placeholder="🏠Endereço">
+    
+    <button class="btn-whatsapp" onclick="finalizarCarrinho()">
+      Finalizar no WhatsApp
+    </button>
+  </div>
+</div>
 
 </body>
 </html>
