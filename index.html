@@ -519,6 +519,25 @@ footer a:hover{
   padding:15px;
 }
 
+.modal-premium{
+  max-height: 90vh;
+  width: 100%;
+  max-width: 400px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+#listaCarrinho{
+  overflow-y: auto;
+  max-height: 250px;
+  margin: 10px 0;
+}
+
 /* INPUTS BONITOS (PADRÃO MODAL) */
 .modal-premium input{
   width:100%;
@@ -884,9 +903,10 @@ ${listaProdutos}
 
 💜 Obrigado por escolher a Rabisco & Arte!`;
 
-  window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
-}
+navigator.sendBeacon(url);
 
+window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+}
 /* ===== FILTRO E PAGINAÇÃO ===== */
 document.getElementById("filtroContainer").querySelectorAll("button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
