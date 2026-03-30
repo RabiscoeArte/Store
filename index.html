@@ -496,13 +496,31 @@ footer a:hover{
   position:fixed;
   left:20px;
   bottom:20px;
-  background:#000;
+  background:linear-gradient(135deg,#964BA8,#6E2F87); /* gradiente premium */
   color:#fff;
   padding:12px 16px;
   border-radius:30px;
   font-weight:800;
   cursor:pointer;
   z-index:1000;
+  box-shadow:0 8px 22px rgba(0,0,0,.3);
+  transition: transform .25s, box-shadow .25s;
+}
+
+.cart-icon:hover{
+  transform:translateY(-3px) scale(1.05);
+  box-shadow:0 12px 30px rgba(0,0,0,.4);
+}
+
+#cart-count{
+  background:#fff;
+  color:#964BA8;
+  font-weight:900;
+  border-radius:50%;
+  padding:4px 8px;
+  font-size:14px;
+  margin-left:6px;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
 }
 
 #modalCarrinho{
@@ -517,6 +535,79 @@ footer a:hover{
   align-items:center;
   z-index:9999;
   padding:15px;
+}
+
+/* CARRINHO PREMIUM */
+#modalCarrinho .carrinho-item{
+  background:#faf7fc;
+  border-radius:14px;
+  padding:12px 14px;
+  margin:12px 0;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+  transition: transform .3s, box-shadow .3s;
+}
+
+#modalCarrinho .carrinho-item:hover{
+  transform:scale(1.02);
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+#modalCarrinho .item-header{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+
+#modalCarrinho .item-header img{
+  width:100px;
+  height:100px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+#modalCarrinho .item-info{
+  flex:1;
+}
+
+#modalCarrinho .item-nome{
+  color:var(--cor-principal-escura);
+  font-weight:800;
+  font-size:1rem;
+}
+
+#modalCarrinho .item-descricao{
+  font-size:13px;
+  color:#555;
+  margin-top:4px;
+}
+
+#modalCarrinho .item-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:8px;
+}
+
+#modalCarrinho .item-preco{
+  font-size:1.15rem;
+  font-weight:900;
+  color:var(--cor-principal);
+}
+
+#modalCarrinho .btn-whatsapp{
+  background:linear-gradient(135deg,var(--cor-principal),var(--cor-principal-escura));
+  color:#fff;
+  font-size:16px;
+  font-weight:900;
+  padding:14px;
+  margin-top:12px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(150,75,168,.4);
+  transition:.25s;
+}
+
+#modalCarrinho .btn-whatsapp:hover{
+  transform:scale(1.04);
 }
 
 .modal-premium{
@@ -562,6 +653,78 @@ footer a:hover{
 .modal-premium input::placeholder{
   color:#999;
   font-weight:500;
+}
+
+.qtd-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: #f8f8f8;
+  padding: 6px;
+  border-radius: 8px;
+  width: 110px;
+}
+
+.qtd-control button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 20%;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* botão - */
+.btn-minus {
+  background: #EF8E88;
+  color: #000000;
+}
+
+/* botão + */
+.btn-plus {
+  background: #89D3A5;
+  color: #000000;
+}
+
+/* efeito ao clicar */
+.qtd-control button:active {
+  transform: scale(0.85);
+}
+
+/* número */
+.qtd-control span {
+  font-weight: bold;
+  font-size: 15px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.btn-remover {
+  margin-top: 8px;
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #f8f8f8;
+  color: #ff4d4d;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* hover (desktop) */
+.btn-remover:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+/* clique (mobile) */
+.btn-remover:active {
+  transform: scale(0.97);
 }
 
 </style>
@@ -723,21 +886,23 @@ function renderizarCards(){
   });
   document.querySelectorAll(".btn-add").forEach(btn=>{
   btn.addEventListener("click", function(){
-    const card = this.closest(".produto");
+  const card = this.closest(".produto");
 
-    const nome = card.dataset.nome;
-    const preco = Number(card.dataset.preco);
+  const nome = card.dataset.nome;
+  const preco = Number(card.dataset.preco);
+  const imagem = card.dataset.imagem;
+  const descricao = card.querySelector(".produto-content p")?.innerText || "";
 
-    const existente = carrinho.find(p => p.nome === nome);
+  const existente = carrinho.find(p => p.nome === nome);
 
-    if(existente){
-      existente.qtd++;
-    }else{
-      carrinho.push({ nome, preco, qtd:1 });
-    }
+  if(existente){
+    existente.qtd++;
+  }else{
+    carrinho.push({ nome, preco, qtd:1, imagem, descricao }); // ✅ agora inclui a descrição
+  }
 
-    atualizarCarrinhoUI();
-  });
+  atualizarCarrinhoUI();
+});
 });
 }
 
@@ -793,25 +958,38 @@ function renderCarrinho(){
 
     lista.innerHTML += `
       <div style="margin:10px 0;padding:10px;border-bottom:1px solid #eee;">
-        
-        <strong>${item.nome}</strong>
 
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;">
 
-          <div>
-            <button onclick="diminuirQtd(${index})">➖</button>
-            <span style="margin:0 8px;font-weight:800;">${item.qtd}</span>
-            <button onclick="aumentarQtd(${index})">➕</button>
-          </div>
+          <img src="${item.imagem}" style="
+            width:110px;
+            height:110px;
+            object-fit:cover;
+            border-radius:8px;
+          ">
 
-          <div>
-            R$ ${subtotal.toFixed(2)}
+          <div style="flex:1;">
+            <strong style="color:var(--cor-principal); font-size:1.05rem;">${item.nome}</strong>
+            <p style="font-size:13px; margin:4px 0; color:#555;">${item.descricao || "Sem descrição"}</p>
+            <p style="font-weight:800; font-size:1rem; color:var(--cor-principal-escura);">R$ ${item.preco.toFixed(2)}</p>
           </div>
 
         </div>
 
-        <button onclick="removerItem(${index})" style="margin-top:6px;color:red;border:none;background:none;">
-          ❌ Remover
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px;">
+          <div class="qtd-control">
+            <button class="btn-minus" onclick="diminuirQtd(${index})">−</button>
+            <span>${item.qtd}</span>
+            <button class="btn-plus" onclick="aumentarQtd(${index})">+</button>
+          </div>
+
+          <div style="font-weight:700; color:var(--cor-principal-escura);">
+            Subtotal: R$ ${subtotal.toFixed(2)}
+          </div>
+        </div>
+
+        <button class="btn-remover" onclick="removerItem(${index})">
+         🗑️ Remover
         </button>
 
       </div>
@@ -819,7 +997,7 @@ function renderCarrinho(){
   });
 
   document.getElementById("totalCarrinho").innerHTML =
-    `<strong>Total: R$ ${total.toFixed(2)}</strong>`;
+    `<strong style="font-size:1.2rem; color:var(--cor-principal-escura);">Total: R$ ${total.toFixed(2)}</strong>`;
 }
 
 function aumentarQtd(index){
@@ -860,33 +1038,42 @@ async function finalizarCarrinho(){
     return;
   }
 
-  const afiliado = localStorage.getItem("afiliado") || "SEM_AFILIADO";
+  // 🔥 UI IMEDIATA (ANTES DE QUALQUER PROCESSAMENTO)
+  const contadorEl = document.getElementById("contadorEnvio");
+  const btn = document.querySelector(".btn-whatsapp");
 
-  let total = 0;
-  let listaProdutos = "";
+  btn.style.display = "none";
+  contadorEl.style.display = "block";
+  contadorEl.innerText = "🚀 Aguarde... preparando seu pedido";
 
-  carrinho.forEach(p=>{
-    const subtotal = p.preco * p.qtd;
-    total += subtotal;
-    listaProdutos += `${p.nome} x${p.qtd} - R$ ${subtotal.toFixed(2)}\n`;
-  });
+  // 👇 deixa o navegador renderizar
+  setTimeout(() => {
 
-  const url =
-    "https://script.google.com/macros/s/AKfycbzp6awm22_gezZOX6C2P53vSkBrsaZ5Yj7iv-WZgI71VJYUfR_TQV1bklqrE8FY3dww/exec" +
-    `?afiliado=${encodeURIComponent(afiliado)}` +
-    `&produto=${encodeURIComponent(listaProdutos)}` +
-    `&valor=${encodeURIComponent(total)}` +
-    `&cliente=${encodeURIComponent(nome)}` +
-    `&cidade=${encodeURIComponent(cidade)}` +
-    `&endereco=${encodeURIComponent(endereco)}`;
+    const afiliado = localStorage.getItem("afiliado") || "SEM_AFILIADO";
 
-  try {
-    await fetch(url); // 🔥 AGORA SIM FUNCIONA COM GOOGLE SHEETS
-  } catch (err) {
-    console.error("Erro ao enviar:", err);
-  }
+    let total = 0;
+    let listaProdutos = "";
 
-  const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
+    carrinho.forEach(p=>{
+      const subtotal = p.preco * p.qtd;
+      total += subtotal;
+      listaProdutos += `${p.nome} x${p.qtd} - R$ ${subtotal.toFixed(2)}\n`;
+    });
+
+    const url =
+      "https://script.google.com/macros/s/AKfycbzp6awm22_gezZOX6C2P53vSkBrsaZ5Yj7iv-WZgI71VJYUfR_TQV1bklqrE8FY3dww/exec" +
+      `?afiliado=${encodeURIComponent(afiliado)}` +
+      `&produto=${encodeURIComponent(listaProdutos)}` +
+      `&valor=${encodeURIComponent(total)}` +
+      `&cliente=${encodeURIComponent(nome)}` +
+      `&cidade=${encodeURIComponent(cidade)}` +
+      `&endereco=${encodeURIComponent(endereco)}`;
+
+    // 🔥 ENVIO SEM TRAVAR
+    fetch(url).catch(() => {});
+    navigator.sendBeacon(url);
+
+    const msg = `✨ *NOVO PEDIDO - Rabisco & Arte* ✨
 
 🛍️ *Pedido:*
 ${listaProdutos}
@@ -903,10 +1090,24 @@ ${listaProdutos}
 
 💜 Obrigado por escolher a Rabisco & Arte!`;
 
-navigator.sendBeacon(url);
+    // ⏱ CONTADOR
+    let tempo = 5;
 
-window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+    const intervalo = setInterval(() => {
+      contadorEl.innerText = `🚀 Enviando seu pedido (${tempo}s)`;
+      tempo--;
+
+      if (tempo < 0) {
+        clearInterval(intervalo);
+
+        window.location.href = `https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+      }
+    }, 1000);
+
+  }, 50); // 👈 ESSENCIAL PRA NÃO TRAVAR A UI
+
 }
+
 /* ===== FILTRO E PAGINAÇÃO ===== */
 document.getElementById("filtroContainer").querySelectorAll("button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
@@ -1019,6 +1220,15 @@ document.addEventListener("DOMContentLoaded", () => {
     <input id="nomeCart" placeholder="👤Seu nome">
     <input id="cidadeCart" placeholder="📍Cidade">
     <input id="enderecoCart" placeholder="🏠Endereço">
+    
+    <p id="contadorEnvio" style="
+  text-align:center;
+  font-weight: bold;
+  font-size:18px;
+  color:#666;
+  margin-bottom:10px;
+">
+</p>
     
     <button class="btn-whatsapp" onclick="finalizarCarrinho()">
       Finalizar no WhatsApp
