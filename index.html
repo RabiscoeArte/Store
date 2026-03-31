@@ -125,27 +125,24 @@ main{
   background:#fff;
   border-radius:18px;
   overflow:hidden;
-  box-shadow:0 6px 15px var(--cor-sombra);
-  transition:.35s;
-  transform:translateY(12px);
+  box-shadow:0 6px 15px rgba(0,0,0,.12);
+  transition:all .4s ease;
+  transform:translateY(30px) scale(.96);
   opacity:0;
-  position:relative;
 }
 
 .produto.visivel{
-  transform:translateY(0);
+  transform:translateY(0) scale(1);
   opacity:1;
 }
 
 .produto:hover{
-  transform:scale(1.02);
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  transform:scale(1.03);
+  box-shadow:0 15px 35px rgba(0,0,0,.18);
 }
 
 .produto img{
-  width:100%;
-  height:230px;
-  object-fit:cover;
+  height:160px;
 }
 
 /* ===============================
@@ -166,9 +163,21 @@ main{
 }
 
 .preco{
-  font-weight:800;
-  color:var(--cor-principal-escura);
-  font-size:1.05rem;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.preco-antigo{
+  text-decoration: line-through;
+  color:#999;
+  font-size:0.9rem;
+}
+
+.preco-novo{
+  color:#ff3d8e;
+  font-weight:900;
+  font-size:1.1rem;
 }
 
 /* ===============================
@@ -727,6 +736,10 @@ footer a:hover{
   transform: scale(0.97);
 }
 
+#verMaisBtn:hover{
+  transform:translateY(-3px);
+}
+
 </style>
 </head>
 <body>
@@ -757,12 +770,24 @@ Personalização exclusiva com qualidade premium</p>
 <!-- PRODUTOS -->
 <main id="catalogo"></main>
 
-<!-- PAGINAÇÃO -->
-<div class="pagination-container">
-  <button id="prev">◀ Anterior</button>
-  <span id="page-info">Página 1 de 1</span>
-  <button id="next">Próximo ▶</button>
+<!-- BOTÃO VER MAIS -->
+<div style="text-align:center; margin:30px 0;">
+  <button id="verMaisBtn" style="
+  background:linear-gradient(135deg,#964BA8,#6E2F87);
+  border:none;
+  padding:12px 25px;
+  border-radius:25px;
+  font-weight:800;
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(150,75,168,.45);
+  transition:.25s;
+">
+  Ver mais
+</button>
 </div>
+
+<!-- CLIENTES SATISFEITOS-->
 <section class="prova-social-dinamica">
   <h3>Clientes satisfeitos 💜</h3>
 
@@ -820,6 +845,9 @@ Personalização exclusiva com qualidade premium</p>
 </div>
 
 <script>
+const verMaisBtn = document.getElementById("verMaisBtn");
+let itensVisiveis = 6;
+
 /* ===== CAPTURA AUTOMÁTICA DE AFILIADO ===== */
 (function(){
   const params = new URLSearchParams(window.location.search);
@@ -832,8 +860,7 @@ Personalização exclusiva com qualidade premium</p>
 /* ===== VARIÁVEIS GLOBAIS ===== */
 const SHEET_API_URL = "https://rabiscoearte.github.io/Store/produtos.json";
 const TELEFONE = "5585994083703";
-let produtos = [], paginaAtual = 1, categoriaAtual = "todos";
-const produtosPorPagina = 6;
+let produtos = [], categoriaAtual = "todos";
 let precoAtual = 0, totalFinal = 0, produtoAtualNome = "";
 let carrinho = [];
 
@@ -851,7 +878,7 @@ async function carregarProdutos(){
       badge: String(p.badge||"")
     }));
     renderizarCards();
-    iniciarSistemaCatalogo();
+    mostrarProdutos();
   }catch(err){
     console.error("Erro ao carregar produtos:", err);
     document.getElementById("catalogo").innerHTML = "<p style='text-align:center;color:red;'>Erro ao carregar produtos.</p>";
@@ -879,7 +906,7 @@ function renderizarCards(){
         <p class="preco">R$ ${precoStr}</p>
       </div>
       <div class="actions">
-  <button class="btn-add">🛒 Adicionar</button>
+  <button class="btn-add">ADICIONAR</button>
 </div>
     `;
     catalogo.appendChild(card);
@@ -1114,36 +1141,59 @@ document.getElementById("filtroContainer").querySelectorAll("button").forEach(bt
     document.querySelectorAll("#filtroContainer button").forEach(b=>b.classList.remove("ativo"));
     btn.classList.add("ativo");
     categoriaAtual = (btn.dataset.cat||"todos").toLowerCase();
-    paginaAtual = 1;
     mostrarProdutos();
   });
 });
 
-const btnPrev = document.getElementById("prev"), btnNext = document.getElementById("next"), infoPagina = document.getElementById("page-info");
-
-btnPrev.addEventListener("click", ()=>{if(paginaAtual>1){paginaAtual--;mostrarProdutos();window.scrollTo({top:200,behavior:"smooth"});}});
-btnNext.addEventListener("click", ()=>{
-  const todosProdutos = Array.from(document.querySelectorAll(".produto"));
-  const filtrados = todosProdutos.filter(prod => categoriaAtual==="todos" || prod.dataset.categoria===categoriaAtual);
-  const totalPaginas = Math.max(1,Math.ceil(filtrados.length/produtosPorPagina));
-  if(paginaAtual<totalPaginas){paginaAtual++;mostrarProdutos();window.scrollTo({top:200,behavior:"smooth"});}
-});
-
-function iniciarSistemaCatalogo(){mostrarProdutos();}
 function mostrarProdutos(){
   const todosProdutos = Array.from(document.querySelectorAll(".produto"));
-  const filtrados = todosProdutos.filter(prod => categoriaAtual==="todos" || prod.dataset.categoria===categoriaAtual);
-  const totalPaginas = Math.max(1,Math.ceil(filtrados.length/produtosPorPagina));
-  todosProdutos.forEach(p=>{p.style.display="none";p.classList.remove("visivel");});
-  if(filtrados.length===0){infoPagina.innerText="Nenhum produto encontrado";btnPrev.disabled=true;btnNext.disabled=true;return;}
-  if(paginaAtual<1) paginaAtual=1; if(paginaAtual>totalPaginas) paginaAtual=totalPaginas;
-  const inicio = (paginaAtual-1)*produtosPorPagina;
-  filtrados.slice(inicio,inicio+produtosPorPagina).forEach((p,i)=>{p.style.display="block";setTimeout(()=>p.classList.add("visivel"),40*i);});
-  infoPagina.innerText=`Página ${paginaAtual} de ${totalPaginas}`;
-  btnPrev.disabled = paginaAtual===1; btnNext.disabled = paginaAtual>=totalPaginas;
+
+  let visiveis = 0;
+  let totalFiltrados = 0; // ✅ NOVO
+
+  // ✅ Conta quantos produtos existem na categoria
+  todosProdutos.forEach(p=>{
+    if(categoriaAtual==="todos" || p.dataset.categoria===categoriaAtual){
+      totalFiltrados++;
+    }
+  });
+
+  todosProdutos.forEach((p, i) => {
+    if(categoriaAtual==="todos" || p.dataset.categoria===categoriaAtual){
+
+      if(visiveis < itensVisiveis){
+        p.style.display = "block";
+        setTimeout(()=>p.classList.add("visivel"), 40*i);
+        visiveis++;
+      } else {
+        p.style.display = "none";
+        p.classList.remove("visivel");
+      }
+
+    } else {
+      p.style.display = "none";
+      p.classList.remove("visivel");
+    }
+  });
+
+  // ✅ CONTROLE DO BOTÃO "VER MAIS"
+  const verMaisBtn = document.getElementById("verMaisBtn");
+
+  if(verMaisBtn){
+    if(itensVisiveis >= totalFiltrados){
+      verMaisBtn.style.display = "none";
+    } else {
+      verMaisBtn.style.display = "inline-block";
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", carregarProdutos);
+
+document.getElementById("verMaisBtn").addEventListener("click", ()=>{
+  itensVisiveis += 6;
+  mostrarProdutos();
+});
 </script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
