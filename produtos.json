@@ -41,7 +41,7 @@
   },
   {
     "nome": "Caneca c/ Colher",
-    "preco": 60,
+    "preco": 65,
     "categoria": "canecas",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto6.png",
     "descricao": "Praticidade e estilo reunidos, com colher exclusiva para mexer com conforto.",
@@ -129,7 +129,7 @@
   },
   {
     "nome": "Azulejo",
-    "preco": 25,
+    "preco": 40,
     "categoria": "decoracao",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto17.png",
     "descricao": "Peça decorativa sofisticada, ideal para personalizar ambientes com charme.",
