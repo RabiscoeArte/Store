@@ -112,8 +112,8 @@
     "badge": "Novidade"
   },
   {
-    "nome": "Camisa",
-    "preco": 35,
+    "nome": "Camisa Estampa DTF",
+    "preco": 37,
     "categoria": "vestuario",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto15.png",
     "descricao": "Conforto e estilo em tecido de alta qualidade, ideal para o dia a dia ou ocasiões especiais.",
@@ -128,8 +128,8 @@
     "badge": ""
   },
   {
-    "nome": "Azulejo",
-    "preco": 40,
+    "nome": "Azulejo 15x15",
+    "preco": 28,
     "categoria": "decoracao",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto17.png",
     "descricao": "Peça decorativa sofisticada, ideal para personalizar ambientes com charme.",
@@ -153,7 +153,7 @@
   },
   {
     "nome": "Long Drink",
-    "preco": 3.9,
+    "preco": 4.2,
     "categoria": "copos",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto20.png",
     "descricao": "Material de alta qualidade, perfeito para drinks e momentos de celebração.",
@@ -184,7 +184,7 @@
     "badge": ""
   },
   {
-    "nome": "Chaveiro",
+    "nome": "Chaveiro com Foto",
     "preco": 6,
     "categoria": "presentes",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto26.png",
@@ -201,10 +201,66 @@
   },
   {
     "nome": "Agenda Personalizada",
-    "preco": 69,
+    "preco": 59,
     "categoria": "presentes",
     "imagem": "https://mistergreenbets.github.io/RabiscoeArte/imgs/produto27.png",
     "descricao": "Organize seus sonhos, metas e compromissos em uma agenda feita especialmente para você.",
     "badge": "Novidade"
+  },
+  {
+    "nome": "Caneca Nossa Senhora de Fatima",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/014.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca São José",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/004.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca São Francisco",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/022.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca Nossa Senhora de Fatima 2",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/042.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca Jesus de Nazare",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/045.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca Santo Expedito",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/039.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
+  },
+  {
+    "nome": "Caneca Imaculada Conceição",
+    "preco": 35,
+    "categoria": "canecas",
+    "imagem": "https://rabiscoearte.github.io/Store/imgs/015.jpg",
+    "descricao": "Fé que se vive todos os dias. Mais do que uma caneca, essa coleção foi criada para quem carrega a fé no coração e faz dela parte da rotina.",
+    "badge": "Lançamento"
   }
 ]
