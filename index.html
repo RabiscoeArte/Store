@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title id="tituloLoja">Rabisco & Arte - Produtos Personalizados</title>
 <meta name="description" content="Canecas, presentes, decoração e vestuário personalizados. Peça pelo WhatsApp.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rabisco & Arte">
+<meta property="og:title" content="Rabisco & Arte - Produtos Personalizados">
+<meta property="og:description" content="Canecas, presentes, decoração e vestuário personalizados. Peça pelo WhatsApp.">
+<meta property="og:url" content="https://rabiscoearte.github.io/Store/">
+<meta property="og:image" content="https://rabiscoearte.github.io/Store/imgs/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rabisco & Arte - Produtos Personalizados">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#5B2D8E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
@@ -248,6 +259,7 @@ footer .so{display:flex;gap:10px;margin-top:10px}footer .so a{width:42px;height:
           <input id="nomeProduto" placeholder="👤 Seu nome"><input id="cidadeProduto" placeholder="📍 Cidade"><input id="enderecoProduto" placeholder="🏠 Endereço">
           <p id="total" style="font-weight:800;margin-bottom:8px"></p>
           <button class="bw" onclick="enviarPedido()"><i class="fab fa-whatsapp"></i> Finalizar no WhatsApp</button></details>
+        <button class="b2" style="padding:11px" onclick="compartilhar()"><i class="fas fa-share-nodes"></i> Compartilhar este produto</button>
         <p class="prazo">⏱ Produção em até 3 dias úteis</p>
       </div>
     </div>
@@ -392,6 +404,14 @@ function enviarPedido(){
   const p=produtos[cur],v=p.variacoes[$("variacao").selectedIndex],obs=$("obs").value.trim(),total=precoAtual()*qtdAtual;
   const msg=`✨ *NOVO PEDIDO - Rabisco & Arte* ✨\n\n🛍️ *Produto:* ${p.nome}${v?" — "+v.nome:""}${qtdAtual>1?" x"+qtdAtual:""}\n💰 *Valor:* ${R(total)}${obs?"\n📝 *Personalização:* "+obs:""}\n\n👤 *Cliente:* ${nome}\n📍 *Cidade:* ${cidade}\n🏠 *Endereço:* ${endereco}\n\n━━━━━━━━━━━━━━━━\n💜 Obrigado por escolher a Rabisco & Arte!`;
   location.href=`https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
+}
+
+function compartilhar(){
+  const p=produtos[cur];if(!p)return;
+  const url=location.origin+location.pathname+"?utm_source=compartilhar&utm_medium=whatsapp#produto-"+slug(p.nome);
+  const texto=`Olha que lindo: ${p.nome} por ${R(p.preco)} na Rabisco & Arte 💜`;
+  if(navigator.share){navigator.share({title:p.nome,text:texto,url}).catch(()=>{})}
+  else window.open(`https://wa.me/?text=${encodeURIComponent(texto+"\n"+url)}`,"_blank");
 }
 
 /* ===== CARRINHO ===== */
