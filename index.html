@@ -5,21 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title id="tituloLoja">Rabisco & Arte - Produtos Personalizados</title>
 <meta name="description" content="Canecas, presentes, decoração e vestuário personalizados. Peça pelo WhatsApp.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Rabisco & Arte">
-<meta property="og:title" content="Rabisco & Arte - Produtos Personalizados">
-<meta property="og:description" content="Canecas, presentes, decoração e vestuário personalizados. Peça pelo WhatsApp.">
-<meta property="og:url" content="https://rabiscoearte.github.io/Store/">
-<meta property="og:image" content="https://rabiscoearte.github.io/Store/imgs/og-image.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Rabisco & Arte - Produtos Personalizados">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#5B2D8E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <link rel="preload" as="image" href="imgs/banner.png">
 <style>
 :root{--p:#5B2D8E;--pv:#7B2FBE;--pe:#2D1B5E;--pl:#C39BD3;--o:#F5820A;--y:#FFD000;--bg:#FAF8FF;--t:#1A1225;--g:#5a5568;--l:#F2EEF8;--bd:#E8DEF3;--wa:#1FA855;
@@ -143,6 +133,14 @@ footer .so{display:flex;gap:10px;margin-top:10px}footer .so a{width:42px;height:
 .item-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-weight:700;font-size:.9rem}
 .btn-remover{color:#c0392b;font-size:.82rem;font-weight:700;margin-top:4px}
 .cf{padding:14px 20px 20px}.cf #totalCarrinho{font:800 1.2rem Poppins,sans-serif;color:var(--p);margin-bottom:10px}
+.tot{display:flex;justify-content:space-between;font-size:.92rem;color:var(--g);padding:2px 0}
+.tot.fim{font:800 1.2rem Poppins,sans-serif;color:var(--p);border-top:1px solid var(--bd);margin-top:6px;padding-top:8px;margin-bottom:10px}
+.cepmsg{font-size:.8rem;color:var(--g);margin:-4px 0 8px;min-height:1em}.cepmsg.err{color:#c0392b}
+.bpix{background:#32BCAD;margin-bottom:8px}.bsec{background:var(--wa);margin-top:8px}
+#pixBox{margin:12px 0;padding:14px;border:1.5px dashed #32BCAD;border-radius:14px;text-align:center}
+#pixBox[hidden]{display:none}
+#pixQR{display:flex;justify-content:center;margin-bottom:8px}#pixQR img,#pixQR canvas{border:6px solid #fff;border-radius:8px}
+.pixval{margin-bottom:8px}#pixCodigo{width:100%;font-size:.7rem;padding:8px;border:1.5px solid var(--bd);border-radius:10px;resize:none;margin-bottom:8px}
 #contadorEnvio{display:none;text-align:center;font-weight:800;color:var(--p);padding:12px}
 .toast{position:fixed;left:50%;bottom:86px;transform:translate(-50%,20px);background:var(--pe);color:#fff;padding:11px 20px;border-radius:999px;font-weight:700;z-index:1200;opacity:0;pointer-events:none;transition:.25s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -259,7 +257,6 @@ footer .so{display:flex;gap:10px;margin-top:10px}footer .so a{width:42px;height:
           <input id="nomeProduto" placeholder="👤 Seu nome"><input id="cidadeProduto" placeholder="📍 Cidade"><input id="enderecoProduto" placeholder="🏠 Endereço">
           <p id="total" style="font-weight:800;margin-bottom:8px"></p>
           <button class="bw" onclick="enviarPedido()"><i class="fab fa-whatsapp"></i> Finalizar no WhatsApp</button></details>
-        <button class="b2" style="padding:11px" onclick="compartilhar()"><i class="fas fa-share-nodes"></i> Compartilhar este produto</button>
         <p class="prazo">⏱ Produção em até 3 dias úteis</p>
       </div>
     </div>
@@ -274,10 +271,21 @@ footer .so{display:flex;gap:10px;margin-top:10px}footer .so a{width:42px;height:
     <div class="ch"><h3 id="tCart">Sua sacolinha 🛍️</h3><p class="prazo">⏱ Produção em até 3 dias úteis</p></div>
     <div id="listaCarrinho"></div>
     <div class="cf">
-      <p id="totalCarrinho"></p>
-      <input id="nomeCart" placeholder="👤 Seu nome"><input id="cidadeCart" placeholder="📍 Cidade"><input id="enderecoCart" placeholder="🏠 Endereço">
+      <div id="totalCarrinho"></div>
+      <input id="nomeCart" placeholder="👤 Seu nome" autocomplete="name">
+      <input id="cepCart" placeholder="📮 CEP (somente números)" inputmode="numeric" maxlength="9" autocomplete="postal-code">
+      <p id="cepMsg" class="cepmsg"></p>
+      <input id="cidadeCart" placeholder="📍 Cidade" autocomplete="address-level2"><input id="enderecoCart" placeholder="🏠 Endereço e número" autocomplete="street-address">
       <p id="contadorEnvio"></p>
-      <button class="bw" onclick="finalizarCarrinho()"><i class="fab fa-whatsapp"></i> Finalizar no WhatsApp</button>
+      <button class="bw bpix" onclick="gerarPix()"><i class="fa-brands fa-pix"></i> Pagar com Pix</button>
+      <div id="pixBox" hidden>
+        <div id="pixQR"></div>
+        <p class="pixval">Valor: <b id="pixValor"></b></p>
+        <textarea id="pixCodigo" readonly rows="3" aria-label="Pix copia e cola"></textarea>
+        <button class="b2" style="width:100%;margin-bottom:8px" onclick="copiarPix()"><i class="fas fa-copy"></i> Copiar código Pix</button>
+        <button class="bw" onclick="finalizarCarrinho(true)"><i class="fab fa-whatsapp"></i> Já paguei — enviar pedido e comprovante</button>
+      </div>
+      <button class="bw bsec" onclick="finalizarCarrinho(false)"><i class="fab fa-whatsapp"></i> Finalizar no WhatsApp (combinar pagamento)</button>
     </div>
   </div>
 </div>
@@ -406,14 +414,6 @@ function enviarPedido(){
   location.href=`https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`;
 }
 
-function compartilhar(){
-  const p=produtos[cur];if(!p)return;
-  const url=location.origin+location.pathname+"?utm_source=compartilhar&utm_medium=whatsapp#produto-"+slug(p.nome);
-  const texto=`Olha que lindo: ${p.nome} por ${R(p.preco)} na Rabisco & Arte 💜`;
-  if(navigator.share){navigator.share({title:p.nome,text:texto,url}).catch(()=>{})}
-  else window.open(`https://wa.me/?text=${encodeURIComponent(texto+"\n"+url)}`,"_blank");
-}
-
 /* ===== CARRINHO ===== */
 try{carrinho=JSON.parse(localStorage.getItem("ra_carrinho")||"[]")}catch(e){carrinho=[]}
 function salvar(){try{localStorage.setItem("ra_carrinho",JSON.stringify(carrinho))}catch(e){}}
@@ -425,7 +425,7 @@ function addCarrinho(i,o){
   atualizarCarrinhoUI();toast("Adicionado à sacolinha");
 }
 function atualizarCarrinhoUI(){$("cart-count").innerText=carrinho.reduce((s,p)=>s+(p.qtd||1),0);salvar()}
-function abrirCarrinho(){renderCarrinho();$("modalCarrinho").style.display="flex";travar()}
+function abrirCarrinho(){carregarCliente();renderCarrinho();$("modalCarrinho").style.display="flex";travar()}
 function fecharCarrinho(){$("modalCarrinho").style.display="none";travar()}
 function renderCarrinho(){
   const l=$("listaCarrinho");let total=0;
@@ -436,25 +436,79 @@ function renderCarrinho(){
     el.innerHTML=`<div class="item-header"><img src="${esc(it.imagem)}" alt="${esc(it.nome)}" onerror="this.onerror=null;this.src=PH"><div style="flex:1"><div class="item-nome">${esc(it.nome)}</div><div class="item-desc">${esc(it.obs?"📝 "+it.obs:it.descricao||"Sem descrição")}</div><div class="item-preco">${R(it.preco)}</div></div></div><div class="item-footer"><div class="qc"><button onclick="diminuirQtd(${i})" aria-label="Diminuir">−</button><span>${it.qtd}</span><button onclick="aumentarQtd(${i})" aria-label="Aumentar">+</button></div><div>Subtotal: ${R(sub)}</div></div><button class="btn-remover" onclick="removerItem(${i})">🗑️ Remover</button>`;
     l.appendChild(el);
   });
-  $("totalCarrinho").innerHTML=`Total: ${R(total)}`;
+  const t=totais();
+  $("totalCarrinho").innerHTML=carrinho.length?`<div class="tot"><span>Subtotal</span><span>${R(t.sub)}</span></div><div class="tot"><span>Frete fixo</span><span>${R(t.frete)}</span></div><div class="tot fim"><span>Total</span><span>${R(t.total)}</span></div>`:"";
+  $("pixBox").hidden=true; /* valor mudou: gerar o Pix de novo */
+}
+
+/* ===== FRETE FIXO, CEP E PIX ===== */
+/* Valores padrão; podem ser alterados a qualquer momento no arquivo config.json (sem mexer no código) */
+let CFG={pixChave:"lilian.martinsrei@gmail.com",pixNome:"RABISCO E ARTE",pixCidade:"FORTALEZA",frete:15};
+fetch("config.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{if(j){CFG={...CFG,...j};if(carrinho.length)renderCarrinho()}}).catch(()=>{});
+function totais(){const sub=carrinho.reduce((s,p)=>s+p.preco*p.qtd,0),frete=carrinho.length?Number(CFG.frete)||0:0;return{sub,frete,total:sub+frete}}
+const soNum=s=>String(s||"").replace(/\D/g,"");
+function salvarCliente(){try{localStorage.setItem("ra_cliente",JSON.stringify({nome:$("nomeCart").value,cep:$("cepCart").value,cidade:$("cidadeCart").value,endereco:$("enderecoCart").value}))}catch(e){}}
+function carregarCliente(){try{const c=JSON.parse(localStorage.getItem("ra_cliente")||"null");if(c){$("nomeCart").value=c.nome||"";$("cepCart").value=c.cep||"";$("cidadeCart").value=c.cidade||"";$("enderecoCart").value=c.endereco||""}}catch(e){}}
+["nomeCart","cepCart","cidadeCart","enderecoCart"].forEach(id=>$(id).addEventListener("input",salvarCliente));
+$("cepCart").addEventListener("input",e=>{let n=soNum(e.target.value).slice(0,8);e.target.value=n.length>5?n.slice(0,5)+"-"+n.slice(5):n;if(n.length===8)buscarCep(n);else $("cepMsg").textContent=""});
+async function buscarCep(n){
+  const m=$("cepMsg");m.className="cepmsg";m.textContent="Buscando endereço…";
+  try{
+    const j=await (await fetch(`https://viacep.com.br/ws/${n}/json/`)).json();
+    if(j.erro){m.className="cepmsg err";m.textContent="CEP não encontrado. Confira ou preencha o endereço manualmente.";return}
+    $("cidadeCart").value=`${j.localidade}/${j.uf}`;
+    if(!$("enderecoCart").value.trim()||$("enderecoCart").dataset.auto==="1"){$("enderecoCart").value=[j.logradouro,j.bairro].filter(Boolean).join(", ")+(j.logradouro?", nº ":"");$("enderecoCart").dataset.auto="1"}
+    m.textContent="✓ Endereço encontrado. Complete com o número.";salvarCliente();
+  }catch(e){m.textContent="Não foi possível buscar o CEP agora. Preencha manualmente."}
+}
+$("enderecoCart").addEventListener("input",e=>{e.target.dataset.auto="0"});
+function cepOk(){return soNum($("cepCart").value).length===8}
+function tlv(id,v){return id+String(v.length).padStart(2,"0")+v}
+function crc16(s){let c=0xFFFF;for(let i=0;i<s.length;i++){c^=s.charCodeAt(i)<<8;for(let j=0;j<8;j++)c=(c&0x8000)?((c<<1)^0x1021):(c<<1);c&=0xFFFF}return c.toString(16).toUpperCase().padStart(4,"0")}
+function pixPayload(valor){
+  const limpa=(s,n)=>norm(s).replace(/[^a-z0-9 ]/g,"").toUpperCase().slice(0,n)||"NA";
+  const mai=tlv("00","BR.GOV.BCB.PIX")+tlv("01",String(CFG.pixChave).trim());
+  const p=tlv("00","01")+tlv("26",mai)+tlv("52","0000")+tlv("53","986")+tlv("54",valor.toFixed(2))+tlv("58","BR")+tlv("59",limpa(CFG.pixNome,25))+tlv("60",limpa(CFG.pixCidade,15))+tlv("62",tlv("05","***"))+"6304";
+  return p+crc16(p);
+}
+function validarCliente(){
+  if(!$("nomeCart").value.trim()||!$("cidadeCart").value.trim()||!$("enderecoCart").value.trim()){alert("Preencha nome, cidade e endereço");return false}
+  if(!cepOk()){alert("Informe um CEP válido (8 números)");$("cepCart").focus();return false}
+  if(!carrinho.length){alert("Carrinho vazio");return false}
+  return true;
+}
+function gerarPix(){
+  if(!validarCliente())return;
+  const t=totais(),code=pixPayload(t.total);
+  $("pixValor").textContent=R(t.total);$("pixCodigo").value=code;
+  const q=$("pixQR");q.innerHTML="";
+  if(window.QRCode)new QRCode(q,{text:code,width:200,height:200,correctLevel:QRCode.CorrectLevel.M});
+  else q.textContent="QR Code indisponível — use o código copia e cola abaixo.";
+  $("pixBox").hidden=false;$("pixBox").scrollIntoView({behavior:"smooth",block:"center"});
+}
+function copiarPix(){
+  const c=$("pixCodigo");c.select();
+  (navigator.clipboard?navigator.clipboard.writeText(c.value):Promise.reject()).then(()=>toast("Código Pix copiado"),()=>{document.execCommand("copy");toast("Código Pix copiado")});
 }
 function aumentarQtd(i){carrinho[i].qtd++;renderCarrinho();atualizarCarrinhoUI()}
 function diminuirQtd(i){carrinho[i].qtd>1?carrinho[i].qtd--:carrinho.splice(i,1);renderCarrinho();atualizarCarrinhoUI()}
 function removerItem(i){carrinho.splice(i,1);renderCarrinho();atualizarCarrinhoUI()}
 
 /* ===== FINALIZAR PEDIDO (mesmo fluxo: planilha + WhatsApp) ===== */
-function finalizarCarrinho(){
-  const nome=$("nomeCart").value.trim(),cidade=$("cidadeCart").value.trim(),endereco=$("enderecoCart").value.trim();
-  if(!nome||!cidade||!endereco){alert("Preencha todos os dados");return}
-  if(!carrinho.length){alert("Carrinho vazio");return}
-  const ce=$("contadorEnvio"),btn=document.querySelector("#modalCarrinho .bw");
+function finalizarCarrinho(pix){
+  if(!validarCliente())return;
+  const nome=$("nomeCart").value.trim(),cidade=$("cidadeCart").value.trim(),endereco=$("enderecoCart").value.trim(),cep=$("cepCart").value.trim();
+  const ce=$("contadorEnvio"),btns=document.querySelectorAll("#modalCarrinho .bw,#modalCarrinho .bpix"),btn={style:{set display(v){btns.forEach(b=>b.style.display=v)}}};
+  $("pixBox").hidden=true;
   btn.style.display="none";ce.style.display="block";ce.innerText="🚀 Preparando seu pedido…";
   const afiliado=(()=>{try{return localStorage.getItem("afiliado")}catch(e){return null}})()||"SEM_AFILIADO";
   let total=0,lista="";
   carrinho.forEach(p=>{const s=p.preco*p.qtd;total+=s;lista+=`${p.nome} x${p.qtd} - ${R(s)}${p.obs?" (Personalização: "+p.obs+")":""}\n`});
-  const url=PEDIDOS_URL+`?afiliado=${encodeURIComponent(afiliado)}&produto=${encodeURIComponent(lista)}&valor=${encodeURIComponent(total)}&cliente=${encodeURIComponent(nome)}&cidade=${encodeURIComponent(cidade)}&endereco=${encodeURIComponent(endereco)}`;
+  const frete=totais().frete;total+=frete;lista+=`Frete fixo - ${R(frete)}\n`;
+  const pagto=pix?"Pix (já pago — comprovante a seguir)":"A combinar";
+  const url=PEDIDOS_URL+`?afiliado=${encodeURIComponent(afiliado)}&produto=${encodeURIComponent(lista)}&valor=${encodeURIComponent(total)}&cliente=${encodeURIComponent(nome)}&cidade=${encodeURIComponent(cidade)}&endereco=${encodeURIComponent(endereco+" | CEP "+cep+" | Pagamento: "+pagto)}`;
   fetch(url).catch(()=>{});try{navigator.sendBeacon(url)}catch(e){}
-  const msg=`✨ *NOVO PEDIDO - Rabisco & Arte* ✨\n\n🛍️ *Pedido:*\n${lista}\n💰 *Total:* ${R(total)}\n\n👤 *Cliente:* ${nome}\n📍 *Cidade:* ${cidade}\n🏠 *Endereço:* ${endereco}\n\n━━━━━━━━━━━━━━━━\n🚀 *Pedido pronto para personalização!*\n💬 Envie os detalhes da arte (nome, foto ou tema)\n\n💜 Obrigado por escolher a Rabisco & Arte!`;
+  const msg=`✨ *NOVO PEDIDO - Rabisco & Arte* ✨\n\n🛍️ *Pedido:*\n${lista}\n💰 *Total:* ${R(total)}\n\n👤 *Cliente:* ${nome}\n📍 *Cidade:* ${cidade}\n📮 *CEP:* ${cep}\n🏠 *Endereço:* ${endereco}\n💳 *Pagamento:* ${pagto}\n\n━━━━━━━━━━━━━━━━\n🚀 *Pedido pronto para personalização!*\n💬 Envie os detalhes da arte (nome, foto ou tema)\n\n💜 Obrigado por escolher a Rabisco & Arte!`;
   let t=5;const iv=setInterval(()=>{
     ce.innerText=`🚀 Enviando seu pedido (${t}s)`;t--;
     if(t<0){clearInterval(iv);carrinho=[];atualizarCarrinhoUI();renderCarrinho();["nomeCart","cidadeCart","enderecoCart"].forEach(k=>$(k).value="");ce.style.display="none";btn.style.display="flex";fecharCarrinho();location.href=`https://wa.me/${TELEFONE}?text=${encodeURIComponent(msg)}`}
